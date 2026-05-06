@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Windmill &amp; Twinkling Stars Hero</title>
+  <link href="https://fonts.cdnfonts.com/css/starry-night-2" rel="stylesheet">
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0a0a1a;
+      color: #fff;
+    }
+
+    /* ══════════════════════════════════════════════
+       HERO SECTION
+    ══════════════════════════════════════════════ */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      min-height: 500px;
+      overflow: hidden;
+      background: linear-gradient(to bottom, #020111 0%, #0a0d2c 40%, #141e44 70%, #1b2a5a 100%);
+    }
+
+    /* ── Twinkling‑stars canvas sits behind everything ── */
+    #stars-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    /* ── Windmill scene container — full‑width, pinned to bottom ── */
+    .windmill-wrap {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      overflow: visible;          /* don't clip moon glow / clouds at the top */
+    }
+
+    /* ══════════════════════════════════════════════
+       WINDMILL SCENE  (night‑themed, based on
+       CodePen by miocene – VWMmex)
+    ══════════════════════════════════════════════ */
+    :root {
+      /* Night palette */
+      --windmill-dark:       #0b1524;
+      --windmill-medium-dark:#1c3a5a;
+      --windmill-medium:     #243f63;
+      --windmill-medium-light:#1a2e50;
+      --windmill-light:      #c8dffa;
+    }
+
+    .windmill {
+      position: relative;
+      width: 800px;
+      height: 750px;               /* taller to give sky room for moon + clouds */
+      overflow: visible;
+      background: transparent;
+      transform-origin: bottom center;
+      transform: scale(var(--wm-scale, 1));
+    }
+
+    .windmill::after {
+      content: '';
+      position: absolute;
+      bottom: -19px;
+      left: -400px;
+      width: 300px;
+      height: 330px;
+      background: var(--windmill-dark);
+    }
+
+    .windmill *, .windmill *::after, .windmill *::before {
+      content: '';
+      position: absolute;
+    }
+
+    /* ── Moon (replaces sun) — arcs across the sky ── */
+    .windmill__sun {
+      top: 300px; left: 50px;
+      height: 40px; width: 40px;
+      border-radius: 100%;
+      background: #e8e4d4;
+      box-shadow:
+        0 0 80px 30px rgba(232,228,212,.25),
+        0 0 200px 60px rgba(232,228,212,.12),
+        0 0 400px 100px rgba(200,223,250,.08);
+    }
+
+    /* ── Mountain / hill layers ── */
+    .windmill__slice-4 {
+      top: 429px; left: 105px;
+      border-left: 300px solid transparent;
+      border-right: 300px solid transparent;
+      border-bottom: 250px solid var(--windmill-medium-light);
+    }
+    .windmill__slice-4::after {
+      top: 55px; left: -70px;
+      border-left: 180px solid transparent;
+      border-right: 180px solid transparent;
+      border-bottom: 195px solid var(--windmill-medium-light);
+    }
+    .windmill__slice-4::before {
+      top: 80px; left: 60px;
+      border-left: 120px solid transparent;
+      border-right: 120px solid transparent;
+      border-bottom: 170px solid var(--windmill-medium-light);
+    }
+    .windmill__slice-4 div {
+      top: 95px; left: -392px;
+      border-left: 170px solid transparent;
+      border-right: 170px solid transparent;
+      border-bottom: 155px solid var(--windmill-medium-light);
+    }
+    .windmill__slice-4 div::after {
+      top: 20px; left: -115px;
+      border-left: 150px solid transparent;
+      border-right: 150px solid transparent;
+      border-bottom: 135px solid var(--windmill-medium-light);
+    }
+    .windmill__slice-4 div::before {
+      top: -38px; left: -105px;
+      border-left: 220px solid transparent;
+      border-right: 220px solid transparent;
+      border-bottom: 195px solid var(--windmill-medium-light);
+    }
+
+    /* Slice 3 */
+    .windmill__slice-3 {
+      top: 571px; left: -15px;
+      border-left: 320px solid transparent;
+      border-right: 320px solid transparent;
+      border-bottom: 150px solid var(--windmill-medium);
+    }
+    .windmill__slice-3::after {
+      top: 23px; left: -78px;
+      border-left: 3px solid transparent;
+      border-right: 3px solid transparent;
+      border-bottom: 15px solid var(--windmill-medium);
+    }
+    .windmill__slice-3::before {
+      top: 31px; left: 89px;
+      border-left: 3px solid transparent;
+      border-right: 3px solid transparent;
+      border-bottom: 15px solid var(--windmill-medium);
+    }
+    .windmill__slice-3 .windmill__tree-right {
+      top: 2px; left: 33px;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 20px solid var(--windmill-medium);
+      opacity: .5;
+    }
+    .windmill__slice-3 .windmill__tree-right::after {
+      top: 15px; left: 36px;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-bottom: 25px solid var(--windmill-medium);
+    }
+    .windmill__slice-3 .windmill__tree-right::before {
+      top: -2px; left: -19px;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-bottom: 16px solid var(--windmill-medium);
+    }
+    .windmill__slice-3 .windmill__tree-left {
+      top: -4px; left: -30px;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 20px solid var(--windmill-medium);
+    }
+    .windmill__slice-3 .windmill__tree-left::after {
+      top: 11px; left: -12px;
+      border-left: 3px solid transparent;
+      border-right: 3px solid transparent;
+      border-bottom: 15px solid var(--windmill-medium);
+    }
+    .windmill__slice-3 .windmill__tree-left::before {
+      top: 19px; left: -46px;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-bottom: 20px solid var(--windmill-medium);
+    }
+
+    /* Slice 2 */
+    .windmill__slice-2 {
+      top: 592px; left: 205px;
+      border-left: 250px solid transparent;
+      border-right: 250px solid transparent;
+      border-bottom: 110px solid var(--windmill-medium-dark);
+    }
+    .windmill__slice-2::after {
+      top: 13px; left: 46px;
+      border-left: 2px solid transparent;
+      border-right: 2px solid transparent;
+      border-bottom: 10px solid var(--windmill-medium-dark);
+    }
+    .windmill__slice-2::before {
+      top: 10px; left: 39px;
+      border-left: 3px solid transparent;
+      border-right: 3px solid transparent;
+      border-bottom: 12px solid var(--windmill-medium-dark);
+    }
+    .windmill__slice-2 .windmill__tree-right {
+      top: 6px; left: -45px;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-bottom: 17px solid var(--windmill-medium-dark);
+    }
+    .windmill__slice-2 .windmill__tree-right::after {
+      top: -16px; left: 13px;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-bottom: 24px solid var(--windmill-medium-dark);
+    }
+    .windmill__slice-2 .windmill__tree-right::before {
+      top: -11px; left: 26px;
+      border-left: 3px solid transparent;
+      border-right: 3px solid transparent;
+      border-bottom: 15px solid var(--windmill-medium-dark);
+    }
+    .windmill__slice-2 .windmill__tree-middle {
+      top: 26px; left: -88px;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-bottom: 15px solid var(--windmill-medium-dark);
+    }
+    .windmill__slice-2 .windmill__tree-middle::after {
+      top: -13px; left: 7px;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 24px solid var(--windmill-medium-dark);
+    }
+    .windmill__slice-2 .windmill__tree-middle::before {
+      top: -18px; left: 21px;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 28px solid var(--windmill-medium-dark);
+    }
+    .windmill__slice-2 .windmill__tree-left {
+      top: 41px; left: -151px;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-bottom: 30px solid var(--windmill-medium-dark);
+    }
+    .windmill__slice-2 .windmill__tree-left::after {
+      top: 2px; left: 8px;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 20px solid var(--windmill-medium-dark);
+    }
+    .windmill__slice-2 .windmill__tree-left::before {
+      top: -10px; left: 19px;
+      border-left: 7px solid transparent;
+      border-right: 7px solid transparent;
+      border-bottom: 28px solid var(--windmill-medium-dark);
+    }
+
+    /* Slice 1 – foreground dark hills (widened for full-width) */
+    .windmill__slice-1 {
+      top: 440px; left: -100px;
+      border-right: 500px solid transparent;
+      border-bottom: 315px solid var(--windmill-dark);
+    }
+    .windmill__slice-1::after {
+      top: 150px; left: 490px;
+      border-left: 330px solid transparent;
+      border-right: 620px solid transparent;
+      border-bottom: 175px solid var(--windmill-dark);
+    }
+    .windmill__slice-1::before {
+      top: 240px; left: 280px;
+      width: 500px; height: 80px;
+      border-radius: 100% 100% 0 0;
+      background: var(--windmill-dark);
+    }
+    /* Tree-right: moved left so it doesn't overlap the windmill */
+    .windmill__slice-1 .windmill__tree-right {
+      top: 110px; left: 880px;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-bottom: 90px solid var(--windmill-dark);
+    }
+    .windmill__slice-1 .windmill__tree-right::after {
+      top: 118px; left: -438px;
+      width: 10px; height: 20px;
+      background: var(--windmill-dark);
+    }
+    .windmill__slice-1 .windmill__tree-right::before {
+      top: 84px; left: -455px;
+      width: 40px; height: 40px;
+      background: var(--windmill-dark);
+      border-radius: 50% 0 50% 50%;
+      transform: rotate(-45deg);
+    }
+    /* Tree-left: grounded on the left hill, not floating */
+    .windmill__slice-1 .windmill__tree-left {
+      top: 35px; left: 120px;
+      border-left: 22px solid transparent;
+      border-right: 22px solid transparent;
+      border-bottom: 100px solid var(--windmill-dark);
+    }
+    .windmill__slice-1 .windmill__tree-left::after {
+      top: 80px; left: 100px;
+      border-left: 16px solid transparent;
+      border-right: 16px solid transparent;
+      border-bottom: 70px solid var(--windmill-dark);
+    }
+    .windmill__slice-1 .windmill__tree-left::before {
+      top: -50px; left: -80px;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-bottom: 65px solid var(--windmill-dark);
+    }
+
+    /* ── Clouds (dimmed for night) ── */
+    .windmill__cloud {
+      width: 200px; height: 40px;
+      border-radius: 40px;
+      background: var(--windmill-light);
+      opacity: .08;
+    }
+    .windmill__cloud::before {
+      top: -20px; left: 30px;
+      width: 100px; height: 30px;
+      border-radius: 20px;
+      background: var(--windmill-light);
+    }
+    .windmill__cloud::after {
+      top: -30px; left: 70px;
+      width: 100px; height: 50px;
+      border-radius: 50px;
+      background: var(--windmill-light);
+    }
+    .windmill__cloud:nth-child(1) { top: 320px; left: 150px; animation: cloud 58s linear infinite; animation-delay: -20s; }
+    .windmill__cloud:nth-child(2) { top: 380px; left: 30px;  transform: scale(0.4); animation: cloud 60s linear infinite; animation-delay: -12s; }
+    .windmill__cloud:nth-child(3) { top: 430px; left: 650px; transform: scale(0.3); animation: cloud 62s linear infinite; animation-delay: -10s; }
+    .windmill__cloud:nth-child(4) { top: 420px; left: 360px; transform: scale(0.8); animation: cloud 64s linear infinite; animation-delay: -30s; }
+    .windmill__cloud:nth-child(5) { top: 280px; left: 500px; transform: scale(0.5); animation: cloud 56s linear infinite; animation-delay: -25s; }
+    .windmill__cloud:nth-child(6) { top: 320px; left: 710px; transform: scale(0.7); animation: cloud 60s linear infinite; animation-delay: -50s; }
+
+    /* ── Windmill structure ── */
+    .windmill__windmill {
+      bottom: 100px; right: 130px;
+      width: 60px;
+      border-style: solid;
+      border-color: var(--windmill-dark) transparent;
+      border-width: 0 10px 135px;
+    }
+    .windmill__windmill::after {
+      top: 7px; left: 17px;
+      width: 8px; height: 8px;
+      transform: rotate(45deg);
+      background: var(--windmill-light);
+    }
+    .windmill__windmill::before {
+      top: -48px; left: -20px;
+      border-left: 40px solid transparent;
+      border-right: 40px solid transparent;
+      border-bottom: 50px solid var(--windmill-dark);
+    }
+
+    .windmill__blades {
+      top: 6px; left: 22px;
+      animation: blades 12s linear infinite;
+    }
+
+    .windmill__blade {
+      height: 80px; width: 24px;
+      border: 2px solid var(--windmill-dark);
+    }
+    .windmill__blade::after {
+      top: 15px; left: -2px;
+      height: 14px; width: 24px;
+      border: 2px solid var(--windmill-dark);
+    }
+    .windmill__blade::before {
+      top: 47px; left: -2px;
+      height: 14px; width: 24px;
+      border: 2px solid var(--windmill-dark);
+    }
+    .windmill__blade:nth-child(1) { top: -84px; left: -13px; }
+    .windmill__blade:nth-child(2) { bottom: -84px; left: -13px; }
+    .windmill__blade:nth-child(3) { top: -43px; left: -56px; transform: rotate(90deg); }
+    .windmill__blade:nth-child(4) { top: -43px; left: 28px;  transform: rotate(90deg); }
+
+    /* ── Keyframes ── */
+    @keyframes blades {
+      100% { transform: rotate(-360deg); }
+    }
+    @keyframes cloud {
+      0%   { transform: translateX(1000px); }
+      100% { transform: translateX(-600px); }
+    }
+
+    @keyframes fadeInUp {
+      0%   { opacity: 0; transform: translateX(-50%) translateY(30px); }
+      100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    /* ══════════════════════════════════════════════
+       HERO TEXT OVERLAY  (optional)
+    ══════════════════════════════════════════════ */
+    .hero__content {
+      position: absolute;
+      top: 12%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      text-align: center;
+      pointer-events: none;
+      /* fade-in on load */
+      opacity: 0;
+      animation: fadeInUp 2s ease-out 0.4s forwards;
+    }
+    .hero__content h1 {
+      font-size: clamp(1.5rem, 5vw, 3.2rem);
+      font-weight: 300;
+      letter-spacing: .12em;
+      text-shadow: 0 2px 20px rgba(0,0,0,.5);
+      font-family: 'Starry Night', 'Segoe UI', sans-serif;
+    }
+    .hero__content p {
+      margin-top: .6rem;
+      font-size: clamp(0.85rem, 2vw, 1.15rem);
+      opacity: .7;
+      letter-spacing: .06em;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .hero { min-height: 400px; }
+      .hero__content { top: 6%; }
+    }
+    @media (min-width: 481px) and (max-width: 768px) {
+      .hero__content { top: 8%; }
+    }
+    @media (min-width: 1600px) {
+      .hero__content { top: 14%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<section class="hero">
+
+  <!-- Layer 0 – twinkling stars (canvas) -->
+  <canvas id="stars-canvas"></canvas>
+
+  <!-- Layer 1 – headline with fade-in -->
+  <div class="hero__content">
+    <h1>Welcome to The Star Mill</h1>
+  </div>
+
+  <!-- Layer 2 – windmill landscape -->
+  <div class="windmill-wrap">
+    <div class="windmill">
+
+      <!-- Moon -->
+      <div class="windmill__sun"></div>
+
+      <!-- Far hills -->
+      <div class="windmill__slice-4"><div></div></div>
+
+      <!-- Mid hills + trees -->
+      <div class="windmill__slice-3">
+        <div class="windmill__tree-left"></div>
+        <div class="windmill__tree-right"></div>
+      </div>
+
+      <!-- Near hills + trees -->
+      <div class="windmill__slice-2">
+        <div class="windmill__tree-right"></div>
+        <div class="windmill__tree-middle"></div>
+        <div class="windmill__tree-left"></div>
+      </div>
+
+      <!-- Clouds -->
+      <div class="windmill__clouds">
+        <div class="windmill__cloud"></div>
+        <div class="windmill__cloud"></div>
+        <div class="windmill__cloud"></div>
+        <div class="windmill__cloud"></div>
+        <div class="windmill__cloud"></div>
+        <div class="windmill__cloud"></div>
+      </div>
+
+      <!-- Foreground hills + trees -->
+      <div class="windmill__slice-1">
+        <div class="windmill__tree-right"></div>
+        <div class="windmill__tree-left"></div>
+      </div>
+
+      <!-- Windmill -->
+      <div class="windmill__windmill">
+        <div class="windmill__blades">
+          <div class="windmill__blade"></div>
+          <div class="windmill__blade"></div>
+          <div class="windmill__blade"></div>
+          <div class="windmill__blade"></div>
+        </div>
+      </div>
+
+    </div><!-- /.windmill -->
+  </div><!-- /.windmill-wrap -->
+
+</section><!-- /.hero -->
+
+<!-- ═══════════════════════════════════════════
+     WINDMILL SCALE  –  fit scene edge‑to‑edge
+═══════════════════════════════════════════ -->
+<script>
+(() => {
+  const SCENE_W = 800;
+  const SCENE_H = 750;
+  const wm   = document.querySelector('.windmill');
+  const wrap = document.querySelector('.windmill-wrap');
+
+  function scaleScene() {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+    // Scale to fill width; also cap so landscape doesn't overflow height
+    const sx = vw / SCENE_W;
+    const sy = vh / SCENE_H;
+    const scale = Math.min(sx, sy * 1.3);   // favour width, allow some Y overflow
+    wm.style.setProperty('--wm-scale', Math.max(scale, 0.45));
+  }
+  scaleScene();
+  window.addEventListener('resize', scaleScene);
+})();
+</script>
+
+<!-- ═══════════════════════════════════════════
+     TWINKLING STARS  –  Canvas Script
+     (Inspired by the classic "twinkling stars"
+      tutorial by Franks Laboratory on YouTube)
+═══════════════════════════════════════════ -->
+<script>
+(() => {
+  const canvas = document.getElementById('stars-canvas');
+  const ctx    = canvas.getContext('2d');
+
+  /* ── Resize helper ── */
+  function resize() {
+    canvas.width  = canvas.clientWidth  * devicePixelRatio;
+    canvas.height = canvas.clientHeight * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); initStars(); });
+
+  /* ── Star pool ── */
+  const STAR_COUNT    = 260;
+  const SHOOTING_MAX  = 3;
+  let stars           = [];
+  let shootingStars   = [];
+
+  class Star {
+    constructor() { this.reset(); }
+    reset() {
+      this.x       = Math.random() * canvas.clientWidth;
+      this.y       = Math.random() * canvas.clientHeight;
+      this.radius  = Math.random() * 1.6 + 0.3;
+      this.alpha   = Math.random();
+      this.dAlpha  = (Math.random() * 0.02 + 0.003) * (Math.random() < 0.5 ? 1 : -1);
+      // colour tint
+      const tints  = ['255,255,255', '200,220,255', '255,240,210', '180,200,255'];
+      this.colour  = tints[Math.floor(Math.random() * tints.length)];
+    }
+    update() {
+      this.alpha += this.dAlpha;
+      if (this.alpha <= 0.05 || this.alpha >= 1) this.dAlpha *= -1;
+      this.alpha = Math.max(0.05, Math.min(1, this.alpha));
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${this.colour},${this.alpha})`;
+      ctx.fill();
+
+      // subtle glow on brighter stars
+      if (this.radius > 1) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius * 3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${this.colour},${this.alpha * 0.08})`;
+        ctx.fill();
+      }
+    }
+  }
+
+  /* ── Shooting stars ── */
+  class ShootingStar {
+    constructor() { this.reset(); }
+    reset() {
+      this.x      = Math.random() * canvas.clientWidth * 0.7;
+      this.y      = Math.random() * canvas.clientHeight * 0.4;
+      this.len    = Math.random() * 60 + 40;
+      this.speed  = Math.random() * 6 + 4;
+      this.alpha  = 1;
+      this.angle  = Math.PI / 5 + Math.random() * 0.3;
+      this.active = true;
+    }
+    update() {
+      this.x     += Math.cos(this.angle) * this.speed;
+      this.y     += Math.sin(this.angle) * this.speed;
+      this.alpha -= 0.012;
+      if (this.alpha <= 0) this.active = false;
+    }
+    draw() {
+      const tx = this.x - Math.cos(this.angle) * this.len;
+      const ty = this.y - Math.sin(this.angle) * this.len;
+      const grad = ctx.createLinearGradient(this.x, this.y, tx, ty);
+      grad.addColorStop(0, `rgba(255,255,255,${this.alpha})`);
+      grad.addColorStop(1, `rgba(255,255,255,0)`);
+      ctx.beginPath();
+      ctx.moveTo(this.x, this.y);
+      ctx.lineTo(tx, ty);
+      ctx.strokeStyle = grad;
+      ctx.lineWidth   = 1.5;
+      ctx.stroke();
+    }
+  }
+
+  function initStars() {
+    stars = [];
+    for (let i = 0; i < STAR_COUNT; i++) stars.push(new Star());
+  }
+  initStars();
+
+  /* ── Spawn shooting stars occasionally ── */
+  setInterval(() => {
+    if (shootingStars.length < SHOOTING_MAX && Math.random() < 0.4) {
+      shootingStars.push(new ShootingStar());
+    }
+  }, 2500);
+
+  /* ── Render loop ── */
+  function animate() {
+    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+
+    // static + twinkling stars
+    for (const s of stars) { s.update(); s.draw(); }
+
+    // shooting stars
+    shootingStars = shootingStars.filter(s => s.active);
+    for (const s of shootingStars) { s.update(); s.draw(); }
+
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+</script>
+</body>
+</html>
