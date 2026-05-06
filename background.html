@@ -196,6 +196,62 @@
       color: rgba(200, 223, 250, 0.45);
       letter-spacing: .06em;
     }
+
+    /* ── Research / institution tags ── */
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.6rem;
+    }
+    .tag {
+      font-size: 0.75rem;
+      letter-spacing: .05em;
+      color: rgba(200, 223, 250, 0.6);
+      background: rgba(200, 223, 250, 0.07);
+      border: 1px solid rgba(200, 223, 250, 0.15);
+      border-radius: 20px;
+      padding: 0.2rem 0.75rem;
+    }
+
+    /* ── Profile photo layout ── */
+    .about-layout {
+      display: flex;
+      gap: 2.5rem;
+      align-items: flex-start;
+    }
+    .about-photo {
+      flex-shrink: 0;
+      width: 180px;
+    }
+    .about-photo img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid rgba(200, 223, 250, 0.15);
+      display: block;
+    }
+    /* Placeholder shown when no image is present */
+    .about-photo .photo-placeholder {
+      width: 180px;
+      height: 220px;
+      border-radius: 8px;
+      border: 1px dashed rgba(200, 223, 250, 0.2);
+      background: rgba(200, 223, 250, 0.03);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(200, 223, 250, 0.25);
+      font-size: 0.75rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      text-align: center;
+      padding: 1rem;
+    }
+    .about-text { flex: 1; }
+    @media (max-width: 600px) {
+      .about-layout { flex-direction: column; }
+      .about-photo, .about-photo .photo-placeholder { width: 100%; }
+    }
   </style>
 </head>
 <body>
@@ -226,43 +282,100 @@
   <div class="content-inner">
 
     <h2>About Mr. Millman</h2>
-    <p>
-      [Add your personal introduction here — who you are, where you're from,
-      and what drew you to education.]
-    </p>
+    <div class="about-layout">
+      <div class="about-photo">
+        <!-- Replace the placeholder below with an <img> tag when you have a photo:
+             <img src="images/millman.jpg" alt="Mr. Millman"> -->
+        <div class="photo-placeholder">Photo<br>coming soon</div>
+      </div>
+      <div class="about-text">
+        <p>
+          I am a New Jersey native who studied astrophysics at Franklin &amp; Marshall College.
+          After graduating, I completed fellowships at Fermilab and Brookhaven National Laboratory,
+          contributing to cutting-edge research in areas such as quantum computing and stellar simulations.
+        </p>
+        <p>
+          Over time, I realized that while research was exciting, it wasn't the impact I wanted to have.
+          Education had always been important to me, and I found myself drawn to it through tutoring
+          students from K&ndash;12 through college in physics, computer science, engineering, and other
+          STEM fields. Those experiences made it clear that helping students learn and grow was where
+          I could make the greatest difference.
+        </p>
+        <p>
+          To deepen my understanding of education, I trained at the University of Jyv&auml;skyl&auml;&mdash;Finland's
+          original teacher training institution&mdash;through the EDUMA Master's Programme. There, I focused
+          on 21st-century challenges and innovation in education, conducting international research on the
+          use of artificial intelligence, digital learning, and virtual reality in the classroom.
+        </p>
+      </div>
+    </div>
 
     <div class="section-divider"></div>
 
     <h2>Education</h2>
 
     <div class="credential-card">
-      <h3>[Degree], [Field of Study]</h3>
-      <p>[University / College Name]</p>
-      <span class="year">[Year]</span>
+      <h3>B.S., Astrophysics</h3>
+      <p>Franklin &amp; Marshall College &mdash; Lancaster, PA</p>
+      <div class="tag-row">
+        <span class="tag">Astrophysics</span>
+        <span class="tag">STEM</span>
+      </div>
     </div>
 
     <div class="credential-card">
-      <h3>[Teaching Certification or Additional Degree]</h3>
-      <p>[Institution Name]</p>
-      <span class="year">[Year]</span>
+      <h3>EDUMA Master's Programme &mdash; Education &amp; Innovation</h3>
+      <p>University of Jyv&auml;skyl&auml; &mdash; Jyv&auml;skyl&auml;, Finland</p>
+      <p style="margin-top:0.5rem; font-size:0.9rem">
+        Focused on 21st-century challenges in education, with international research on AI,
+        digital learning, and virtual reality in the classroom.
+      </p>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h2>Research Experience</h2>
+
+    <div class="credential-card">
+      <h3>Postdoctoral Fellow</h3>
+      <p>Fermi National Accelerator Laboratory (Fermilab) &mdash; Batavia, IL</p>
+      <div class="tag-row">
+        <span class="tag">Quantum Computing</span>
+        <span class="tag">Particle Physics</span>
+      </div>
+    </div>
+
+    <div class="credential-card">
+      <h3>Research Fellow</h3>
+      <p>Brookhaven National Laboratory &mdash; Upton, NY</p>
+      <div class="tag-row">
+        <span class="tag">Stellar Simulations</span>
+        <span class="tag">Computational Physics</span>
+      </div>
     </div>
 
     <div class="section-divider"></div>
 
     <h2>Teaching Experience</h2>
     <p>
-      [Describe your teaching history — grade levels, subjects, schools, and
-      any notable classroom experiences or achievements.]
+      Before entering the classroom full time, Mr. Millman spent years tutoring students
+      at every level&mdash;from middle school through college&mdash;across a wide range of STEM disciplines.
+      That one-on-one work laid the foundation for a teaching style rooted in meeting each
+      student where they are.
     </p>
+    <ul>
+      <li>Physics (introductory through AP &amp; college-level)</li>
+      <li>Computer Science &amp; Programming</li>
+      <li>Engineering fundamentals</li>
+      <li>Mathematics &amp; other STEM subjects</li>
+    </ul>
 
     <div class="section-divider"></div>
 
     <h2>Interests &amp; Hobbies</h2>
     <p>Outside the classroom, you might find Mr. Millman:</p>
     <ul>
-      <li>[Interest or hobby]</li>
-      <li>[Interest or hobby]</li>
-      <li>[Interest or hobby]</li>
+      <li>[Add your interests and hobbies here]</li>
     </ul>
 
   </div>
