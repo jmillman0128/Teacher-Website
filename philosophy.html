@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Teaching Philosophy – The Star Mill</title>
+  <link href="https://fonts.cdnfonts.com/css/starry-night-2" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #080b1e;
+      color: #fff;
+    }
+
+    /* ══════════════════════════════════════════════
+       NAVIGATION BAR
+    ══════════════════════════════════════════════ */
+    .site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      z-index: 100;
+      background: rgba(2, 1, 17, 0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(200, 223, 250, 0.12);
+      display: flex;
+      align-items: center;
+    }
+    .nav-inner {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Starry Night', 'Segoe UI', sans-serif;
+      font-size: 1.25rem;
+      color: #c8dffa;
+      text-decoration: none;
+      letter-spacing: .1em;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+    }
+    .nav-links a {
+      color: rgba(200, 223, 250, 0.7);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: #c8dffa;
+      transition: width 0.25s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: #c8dffa; }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { width: 100%; }
+
+    /* ══════════════════════════════════════════════
+       PAGE HERO (stars only)
+    ══════════════════════════════════════════════ */
+    .page-hero {
+      position: relative;
+      width: 100%;
+      height: 38vh;
+      min-height: 260px;
+      background: linear-gradient(to bottom, #020111 0%, #0a0d2c 60%, #1b2a5a 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    #stars-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .page-hero__content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding-top: 60px;
+      opacity: 0;
+      animation: fadeInUp 1.4s ease-out 0.3s forwards;
+    }
+    .page-hero__content h1 {
+      font-family: 'Starry Night', 'Segoe UI', sans-serif;
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 300;
+      letter-spacing: .12em;
+      color: #fff;
+      text-shadow: 0 2px 20px rgba(0,0,0,.5);
+    }
+    .page-hero__content p {
+      margin-top: 0.6rem;
+      font-size: clamp(0.8rem, 1.8vw, 1rem);
+      color: rgba(200, 223, 250, 0.6);
+      letter-spacing: .06em;
+    }
+    @keyframes fadeInUp {
+      0%   { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ══════════════════════════════════════════════
+       CONTENT SECTION
+    ══════════════════════════════════════════════ */
+    .content-section {
+      background: linear-gradient(to bottom, #1b2a5a 0%, #0a0d2c 25%, #080b1e 100%);
+      padding: 5rem 2rem 8rem;
+    }
+    .content-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .content-inner h2 {
+      font-family: 'Starry Night', 'Segoe UI', sans-serif;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      font-weight: 300;
+      color: #c8dffa;
+      letter-spacing: .1em;
+      margin-bottom: 1.2rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid rgba(200, 223, 250, 0.15);
+    }
+    .content-inner p {
+      color: rgba(255, 255, 255, 0.78);
+      line-height: 1.9;
+      font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+      margin-bottom: 1.4rem;
+    }
+    .content-inner ul {
+      list-style: none;
+      margin-bottom: 1.4rem;
+    }
+    .content-inner ul li {
+      color: rgba(255, 255, 255, 0.78);
+      line-height: 1.9;
+      font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+      padding: 0.3rem 0 0.3rem 1.6rem;
+      position: relative;
+    }
+    .content-inner ul li::before {
+      content: '★';
+      position: absolute;
+      left: 0;
+      color: rgba(200, 223, 250, 0.4);
+      font-size: 0.65em;
+      top: 0.6rem;
+    }
+    .section-divider {
+      width: 40px;
+      height: 1px;
+      background: rgba(200, 223, 250, 0.25);
+      margin: 3rem 0;
+    }
+    .pull-quote {
+      margin: 0;
+      padding: 1.6rem 2rem;
+      border-left: 2px solid rgba(200, 223, 250, 0.35);
+      color: rgba(200, 223, 250, 0.8);
+      font-style: italic;
+      font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+      line-height: 1.8;
+      background: rgba(200, 223, 250, 0.04);
+      border-radius: 0 8px 8px 0;
+      margin-bottom: 1.4rem;
+    }
+    .pull-quote cite {
+      display: block;
+      margin-top: 0.8rem;
+      font-style: normal;
+      font-size: 0.82rem;
+      letter-spacing: .06em;
+      color: rgba(200, 223, 250, 0.5);
+    }
+    .principle-card {
+      background: rgba(200, 223, 250, 0.04);
+      border: 1px solid rgba(200, 223, 250, 0.11);
+      border-radius: 8px;
+      padding: 1.4rem 1.8rem;
+      margin-bottom: 1.1rem;
+    }
+    .principle-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #c8dffa;
+      letter-spacing: .04em;
+      margin-bottom: 0.5rem;
+    }
+    .principle-card p {
+      margin-bottom: 0;
+      font-size: 0.92rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ NAVIGATION ═══════════════ -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">&#9733; The Star Mill</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="background.html">Background</a></li>
+      <li><a href="philosophy.html" class="active">Teaching Philosophy</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ═══════════════ PAGE HERO ═══════════════ -->
+<section class="page-hero">
+  <canvas id="stars-canvas"></canvas>
+  <div class="page-hero__content">
+    <h1>Teaching Philosophy</h1>
+    <p>The beliefs &amp; values that guide the Star Mill</p>
+  </div>
+</section>
+
+<!-- ═══════════════ CONTENT ═══════════════ -->
+<main class="content-section">
+  <div class="content-inner">
+
+    <h2>Every Student Is a Star</h2>
+    <p>
+      At the heart of everything in the Star Mill is a simple belief: every student has
+      unique potential waiting to be discovered. My role as an educator is not to fill
+      empty vessels, but to ignite the light that already exists in each learner.
+    </p>
+    <blockquote class="pull-quote">
+      "We are made of star-stuff. We are a way for the universe to know itself."
+      <cite>&mdash; Carl Sagan</cite>
+    </blockquote>
+    <p>
+      [Expand on your core belief about students and learning here.]
+    </p>
+
+    <div class="section-divider"></div>
+
+    <h2>Core Principles</h2>
+
+    <div class="principle-card">
+      <h3>Growth Over Perfection</h3>
+      <p>
+        [Describe your approach to mistakes, effort, and growth mindset in your classroom.]
+      </p>
+    </div>
+
+    <div class="principle-card">
+      <h3>Curiosity &amp; Inquiry</h3>
+      <p>
+        [Describe how you encourage students to ask questions and think critically.]
+      </p>
+    </div>
+
+    <div class="principle-card">
+      <h3>Belonging &amp; Community</h3>
+      <p>
+        [Describe how you build a safe, inclusive environment where all students feel seen.]
+      </p>
+    </div>
+
+    <div class="principle-card">
+      <h3>Relevance &amp; Real-World Connection</h3>
+      <p>
+        [Describe how you connect content to students' lives and the world around them.]
+      </p>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <h2>In the Classroom</h2>
+    <p>
+      [Describe your typical classroom approach — instructional methods, routines,
+      how you differentiate for different learners, etc.]
+    </p>
+    <ul>
+      <li>[Key classroom practice or strategy]</li>
+      <li>[Key classroom practice or strategy]</li>
+      <li>[Key classroom practice or strategy]</li>
+    </ul>
+
+    <div class="section-divider"></div>
+
+    <h2>A Note to Students &amp; Families</h2>
+    <p>
+      [Write a personal message to your students and their families — your hopes for the
+      year, how to reach you, and what they can expect from the Star Mill.]
+    </p>
+
+  </div>
+</main>
+
+<!-- ═══════════════ STARS CANVAS SCRIPT ═══════════════ -->
+<script>
+(() => {
+  const canvas = document.getElementById('stars-canvas');
+  const ctx    = canvas.getContext('2d');
+
+  function resize() {
+    canvas.width  = canvas.clientWidth  * devicePixelRatio;
+    canvas.height = canvas.clientHeight * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); initStars(); });
+
+  const STAR_COUNT = 160;
+  let stars = [];
+
+  class Star {
+    constructor() { this.reset(); }
+    reset() {
+      this.x      = Math.random() * canvas.clientWidth;
+      this.y      = Math.random() * canvas.clientHeight;
+      this.radius = Math.random() * 1.6 + 0.3;
+      this.alpha  = Math.random();
+      this.dAlpha = (Math.random() * 0.02 + 0.003) * (Math.random() < 0.5 ? 1 : -1);
+      const tints = ['255,255,255', '200,220,255', '255,240,210', '180,200,255'];
+      this.colour = tints[Math.floor(Math.random() * tints.length)];
+    }
+    update() {
+      this.alpha += this.dAlpha;
+      if (this.alpha <= 0.05 || this.alpha >= 1) this.dAlpha *= -1;
+      this.alpha = Math.max(0.05, Math.min(1, this.alpha));
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${this.colour},${this.alpha})`;
+      ctx.fill();
+      if (this.radius > 1) {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius * 3, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${this.colour},${this.alpha * 0.08})`;
+        ctx.fill();
+      }
+    }
+  }
+
+  function initStars() {
+    stars = [];
+    for (let i = 0; i < STAR_COUNT; i++) stars.push(new Star());
+  }
+  initStars();
+
+  function animate() {
+    ctx.clearRect(0, 0, canvas.clientWidth, canvas.clientHeight);
+    for (const s of stars) { s.update(); s.draw(); }
+    requestAnimationFrame(animate);
+  }
+  animate();
+})();
+</script>
+
+</body>
+</html>

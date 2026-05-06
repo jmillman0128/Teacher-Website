@@ -449,9 +449,167 @@
     @media (min-width: 1600px) {
       .hero__content { top: 14%; }
     }
+
+    /* ══════════════════════════════════════════════
+       NAVIGATION BAR
+    ══════════════════════════════════════════════ */
+    .site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 60px;
+      z-index: 100;
+      background: rgba(2, 1, 17, 0.8);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(200, 223, 250, 0.12);
+      display: flex;
+      align-items: center;
+    }
+    .nav-inner {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      font-family: 'Starry Night', 'Segoe UI', sans-serif;
+      font-size: 1.25rem;
+      color: #c8dffa;
+      text-decoration: none;
+      letter-spacing: .1em;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 2.5rem;
+    }
+    .nav-links a {
+      color: rgba(200, 223, 250, 0.7);
+      text-decoration: none;
+      font-size: 0.82rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      transition: color 0.25s;
+      position: relative;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: #c8dffa;
+      transition: width 0.25s;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { color: #c8dffa; }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { width: 100%; }
+
+    /* ══════════════════════════════════════════════
+       SCROLL INDICATOR
+    ══════════════════════════════════════════════ */
+    .scroll-cue {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      opacity: 0;
+      animation: fadeInUp 2s ease-out 1.5s forwards;
+    }
+    .scroll-cue span {
+      font-size: 0.7rem;
+      letter-spacing: .15em;
+      text-transform: uppercase;
+      color: rgba(200, 223, 250, 0.5);
+    }
+    .scroll-cue__arrow {
+      width: 16px; height: 16px;
+      border-right: 1.5px solid rgba(200, 223, 250, 0.5);
+      border-bottom: 1.5px solid rgba(200, 223, 250, 0.5);
+      transform: rotate(45deg);
+      animation: bounce 1.6s ease-in-out infinite;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); }
+      50%       { transform: rotate(45deg) translateY(6px); }
+    }
+
+    /* ══════════════════════════════════════════════
+       INTRO SECTION
+    ══════════════════════════════════════════════ */
+    .intro-section {
+      background: linear-gradient(to bottom, #1b2a5a 0%, #0a0d2c 40%, #080b1e 100%);
+      padding: 6rem 2rem 7rem;
+      display: flex;
+      justify-content: center;
+    }
+    .intro-inner {
+      max-width: 740px;
+      text-align: center;
+    }
+    .intro-inner .intro-greeting {
+      font-family: 'Starry Night', 'Segoe UI', sans-serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+      font-weight: 300;
+      color: #c8dffa;
+      letter-spacing: .1em;
+      margin-bottom: 0.5rem;
+    }
+    .intro-inner p {
+      color: rgba(255, 255, 255, 0.78);
+      line-height: 1.9;
+      font-size: clamp(0.9rem, 1.6vw, 1.05rem);
+      margin-bottom: 1.5rem;
+    }
+    .intro-divider {
+      width: 40px;
+      height: 1px;
+      background: rgba(200, 223, 250, 0.3);
+      margin: 2.5rem auto;
+    }
+    .intro-inner blockquote {
+      margin: 0;
+      padding: 1.5rem 2rem;
+      border-left: 2px solid rgba(200, 223, 250, 0.35);
+      color: rgba(200, 223, 250, 0.8);
+      font-style: italic;
+      font-size: clamp(0.9rem, 1.7vw, 1.05rem);
+      line-height: 1.8;
+      background: rgba(200, 223, 250, 0.04);
+      border-radius: 0 8px 8px 0;
+      text-align: left;
+    }
+    .intro-inner blockquote cite {
+      display: block;
+      margin-top: 0.8rem;
+      font-style: normal;
+      font-size: 0.82rem;
+      letter-spacing: .06em;
+      color: rgba(200, 223, 250, 0.5);
+    }
   </style>
 </head>
 <body>
+
+<!-- ═══════════════ NAVIGATION ═══════════════ -->
+<nav class="site-nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">&#9733; The Star Mill</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="background.html">Background</a></li>
+      <li><a href="philosophy.html">Teaching Philosophy</a></li>
+    </ul>
+  </div>
+</nav>
 
 <!-- ═══════════════ HERO ═══════════════ -->
 <section class="hero">
@@ -516,7 +674,29 @@
     </div><!-- /.windmill -->
   </div><!-- /.windmill-wrap -->
 
+  <!-- Scroll cue -->
+  <div class="scroll-cue">
+    <span>Scroll</span>
+    <div class="scroll-cue__arrow"></div>
+  </div>
+
 </section><!-- /.hero -->
+
+<!-- ═══════════════ INTRO SECTION ═══════════════ -->
+<section class="intro-section">
+  <div class="intro-inner">
+    <p class="intro-greeting">Hello there!</p>
+    <p>I'm Mr. Millman, educator and proud operator of the "Star Mill."</p>
+    <p>Stars are among the most powerful forces in the universe, radiating energy, warmth, and ultimately making life possible. I believe my students are much the same: each one a star with the potential to shine in their own unique way.</p>
+    <p>The "Star Mill" is what I call my classroom: a place where students develop their strengths, discover their potential, and grow into the brightest versions of themselves.</p>
+    <div class="intro-divider"></div>
+    <blockquote>
+      "We are made of star-stuff. We are a way for the universe to know itself."
+      <cite>&mdash; Carl Sagan</cite>
+    </blockquote>
+    <p style="margin-top:1.5rem">In this class, we work to understand not just the world around us, but the potential within us.</p>
+  </div>
+</section>
 
 <!-- ═══════════════════════════════════════════
      WINDMILL SCALE  –  fit scene edge‑to‑edge
