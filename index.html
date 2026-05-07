@@ -439,12 +439,19 @@
     }
 
     /* ── Responsive ── */
-    @media (max-width: 480px) {
+    @media (max-width: 380px) {
+      .hero { min-height: 380px; }
+      .hero__content { top: 5%; }
+      .windmill { --wm-scale: 0.42; }
+    }
+    @media (min-width: 381px) and (max-width: 480px) {
       .hero { min-height: 400px; }
       .hero__content { top: 6%; }
+      .windmill { --wm-scale: 0.48; }
     }
     @media (min-width: 481px) and (max-width: 768px) {
       .hero__content { top: 8%; }
+      .windmill { --wm-scale: 0.70; }
     }
     @media (min-width: 1600px) {
       .hero__content { top: 14%; }
