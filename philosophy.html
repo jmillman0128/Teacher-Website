@@ -91,6 +91,8 @@
       inset: 0;
       width: 100%;
       height: 100%;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
     }
     .page-hero__content {
       position: relative;
@@ -337,7 +339,18 @@
     ctx.scale(devicePixelRatio, devicePixelRatio);
   }
   resize();
-  window.addEventListener('resize', () => { resize(); initStars(); });
+  let _lastStarW = canvas.clientWidth;
+  let _resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(_resizeTimer);
+    _resizeTimer = setTimeout(() => {
+      resize();
+      if (canvas.clientWidth !== _lastStarW) {
+        _lastStarW = canvas.clientWidth;
+        initStars();
+      }
+    }, 120);
+  });
 
   const STAR_COUNT = 160;
   let stars = [];
